@@ -63,7 +63,7 @@ button.addEventListener("click",async()=>{
       status.textContent="Location copied! Returning to the form…";
       setTimeout(()=>location.href=destination,900);
     }else{
-      status.textContent=`Location copied: ${coordinates}`;
+      status.textContent="Coordinates copied. Return to the Form tab in your browser and paste them.";
       button.disabled=false;
     }
   }catch{
