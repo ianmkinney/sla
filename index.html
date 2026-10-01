@@ -3,35 +3,43 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#16202d">
+  <meta name="theme-color" content="#172131">
   <meta name="description" content="A private, browser-only tool for copying your current coordinates.">
   <title>Copy My Coordinates</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <main class="page-shell">
-    <div class="wordmark" aria-label="Coordinate copy tool">COORDINATES <span>↗</span></div>
-    <section class="location-card" aria-labelledby="page-title">
-      <div class="signal" aria-hidden="true">
-        <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
-          <circle cx="32" cy="32" r="7" fill="currentColor"/>
-          <circle cx="32" cy="32" r="18" stroke="currentColor" stroke-width="2"/>
-          <circle cx="32" cy="32" r="29" stroke="currentColor" stroke-width="2" stroke-dasharray="3 4"/>
-          <path d="M32 3v8M32 53v8M3 32h8M53 32h8" stroke="currentColor" stroke-width="2"/>
+  <main class="app-shell">
+    <header class="masthead">
+      <a class="brand" href="./" aria-label="Coordinates home">Coordinates<span aria-hidden="true">↗</span></a>
+      <span class="utility-label">Private utility</span>
+    </header>
+
+    <section class="hero" aria-labelledby="page-title">
+      <div class="locator-mark" aria-hidden="true">
+        <svg viewBox="0 0 80 80" fill="none">
+          <circle cx="40" cy="40" r="7" fill="currentColor"/>
+          <circle cx="40" cy="40" r="22" stroke="currentColor" stroke-width="1.5"/>
+          <circle cx="40" cy="40" r="36" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2 4"/>
+          <path d="M40 0v12M40 68v12M0 40h12M68 40h12" stroke="currentColor" stroke-width="1.5"/>
         </svg>
       </div>
-      <p class="eyebrow">Location utility</p>
-      <h1 id="page-title">Copy your<br><em>coordinates.</em></h1>
-      <p class="intro">Use your phone’s location to copy latitude and longitude, then paste them into the form you came from.</p>
-      <div class="privacy-note">
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3 5 6v5c0 4.7 2.9 8.8 7 10 4.1-1.2 7-5.3 7-10V6l-7-3Z" stroke="currentColor" stroke-width="1.8"/><path d="M9 12.2 11 14l4-4" stroke="currentColor" stroke-width="1.8"/></svg>
-        <p><strong>Your location stays on your device.</strong> This app does not store, send, or share location data. It only reads coordinates in your browser so it can copy them to your clipboard.</p>
+      <p class="kicker">Location, without the detour</p>
+      <h1 id="page-title">Your coordinates,<br><em>copied.</em></h1>
+      <p class="lede">Get your current latitude and longitude in one tap, ready to paste back into your form.</p>
+    </section>
+
+    <section class="action-panel" aria-label="Copy coordinates">
+      <div class="privacy-copy">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3 5.5 6v5c0 4.4 2.7 8.3 6.5 10 3.8-1.7 6.5-5.6 6.5-10V6L12 3Z" stroke="currentColor" stroke-width="1.6"/><path d="m9 12 2 2 4-4" stroke="currentColor" stroke-width="1.6"/></svg>
+        <p><strong>Private by design.</strong> Your location is only read in this browser to copy coordinates to your clipboard. Nothing is stored, sent, or shared.</p>
       </div>
       <button id="locate" class="primary-action"><span>Copy my coordinates</span><span class="action-arrow" aria-hidden="true">↗</span></button>
       <p id="status" class="status" role="status" aria-live="polite"></p>
       <a id="returnLink" class="return-link" hidden>Return to form <span aria-hidden="true">↗</span></a>
     </section>
-    <p class="footer-note">Your browser will ask for permission before accessing location.</p>
+
+    <footer>Permission is always requested by your browser first.</footer>
   </main>
   <script src="app.js"></script>
 </body>
