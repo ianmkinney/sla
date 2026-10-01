@@ -19,27 +19,49 @@ async function copyText(text){
   if(!copied)throw new Error("Clipboard copy failed");
 }
 
-button.addEventListener("click",()=>{
+function getPosition(options){
+  return new Promise((resolve,reject)=>navigator.geolocation.getCurrentPosition(resolve,reject,options));
+}
+
+button.addEventListener("click",async()=>{
   if(!navigator.geolocation){status.textContent="Location services aren't supported by this browser.";return;}
-  button.disabled=true;status.textContent="Requesting your location…";
-  navigator.geolocation.getCurrentPosition(async({coords})=>{
-    const coordinates=`${coords.latitude.toFixed(6)}, ${coords.longitude.toFixed(6)}`;
+  button.disabled=true;
+  status.textContent="Requesting your location…";
+
+  let position;
+  try{
+    // Fast path: accept a recent/cached fix and don't force GPS-level accuracy.
+    position=await getPosition({enableHighAccuracy:false,timeout:15000,maximumAge:300000});
+  }catch(firstError){
     try{
-      await copyText(coordinates);
-      if(destination){
-        status.textContent="Location copied! Returning to the form…";
-        setTimeout(()=>location.href=destination,900);
-      }else{
-        status.textContent=`Location copied: ${coordinates}`;
-        button.disabled=false;
-      }
-    }catch{
-      status.textContent=`Copy failed. Your location is: ${coordinates}`;
+      // Fallback: give the device longer to obtain a fresh fix.
+      status.textContent="Still locating you…";
+      position=await getPosition({enableHighAccuracy:true,timeout:30000,maximumAge:600000});
+    }catch(error){
+      const messages={
+        1:"Location permission was denied. Please allow location access in your browser settings and try again.",
+        2:"Your device couldn't determine a location. Make sure Location Services are enabled, then try again.",
+        3:"Location is taking too long. Try opening this page in Safari or Chrome and make sure Location Services are enabled."
+      };
+      status.textContent=messages[error.code]||"Something went wrong while getting your location.";
+      button.disabled=false;
+      return;
+    }
+  }
+
+  const {coords}=position;
+  const coordinates=`${coords.latitude.toFixed(6)}, ${coords.longitude.toFixed(6)}`;
+  try{
+    await copyText(coordinates);
+    if(destination){
+      status.textContent="Location copied! Returning to the form…";
+      setTimeout(()=>location.href=destination,900);
+    }else{
+      status.textContent=`Location copied: ${coordinates}`;
       button.disabled=false;
     }
-  },error=>{
-    const messages={1:"Location permission was denied. Please allow location access and try again.",2:"Your location couldn't be determined. Please try again.",3:"Location lookup timed out. Please try again."};
-    status.textContent=messages[error.code]||"Something went wrong while getting your location.";
+  }catch{
+    status.textContent=`Copy failed. Your location is: ${coordinates}`;
     button.disabled=false;
-  },{enableHighAccuracy:true,timeout:12000,maximumAge:0});
+  }
 });
