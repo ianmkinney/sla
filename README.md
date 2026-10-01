@@ -13,3 +13,8 @@ Return to a form afterward:
 
 ## Privacy
 Coordinates are processed entirely in the visitor's browser. This app has no backend and does not store or transmit the coordinates itself.
+
+
+## Purpose
+
+Simple Location App is a private, browser-based location utility for a Joro spider collection form. It reads a visitor’s current coordinates only in their browser so they can copy and paste them into the form. Location data is not stored, transmitted, or shared by this app.
