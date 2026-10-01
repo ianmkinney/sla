@@ -1,6 +1,8 @@
 const button=document.querySelector("#locate");
 const status=document.querySelector("#status");
 const returnLink=document.querySelector("#returnLink");
+const copyAgain=document.querySelector("#copyAgain");
+let latestCoordinates="";
 const params=new URLSearchParams(location.search);
 
 function safeReturnUrl(value){
@@ -11,10 +13,13 @@ const destination=safeReturnUrl(params.get("return"));
 if(destination){returnLink.href=destination;returnLink.hidden=false;}
 
 async function copyText(text){
-  if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(text);return;}
+  try{
+    if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(text);return;}
+  }catch{}
   const area=document.createElement("textarea");
-  area.value=text;area.style.position="fixed";area.style.opacity="0";
-  document.body.appendChild(area);area.select();
+  area.value=text;area.setAttribute("readonly","");
+  area.style.position="fixed";area.style.left="-9999px";area.style.opacity="0";
+  document.body.appendChild(area);area.focus();area.select();
   const copied=document.execCommand("copy");area.remove();
   if(!copied)throw new Error("Clipboard copy failed");
 }
@@ -51,6 +56,7 @@ button.addEventListener("click",async()=>{
 
   const {coords}=position;
   const coordinates=`${coords.latitude.toFixed(6)}, ${coords.longitude.toFixed(6)}`;
+  latestCoordinates=coordinates;
   try{
     await copyText(coordinates);
     if(destination){
@@ -61,7 +67,12 @@ button.addEventListener("click",async()=>{
       button.disabled=false;
     }
   }catch{
-    status.textContent=`Copy failed. Your location is: ${coordinates}`;
+    status.textContent=`Coordinates ready: ${coordinates}`;
+    copyAgain.hidden=false;
     button.disabled=false;
   }
+});
+copyAgain?.addEventListener("click",async()=>{
+  if(!latestCoordinates)return;
+  try{await copyText(latestCoordinates);status.textContent="Coordinates copied to your clipboard.";copyAgain.hidden=true;}catch{status.textContent=`Select and copy: ${latestCoordinates}`;}
 });
