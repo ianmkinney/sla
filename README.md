@@ -1,6 +1,6 @@
 # SLA: Simple Location App
 
-A zero-backend GitHub Pages utility that requests browser geolocation permission, copies latitude/longitude to the clipboard, and optionally returns the visitor to a form.
+A lightweight, zero-backend GitHub Pages utility that requests browser geolocation permission, copies latitude/longitude to the clipboard, and optionally returns the visitor to a form.
 
 ## GitHub Pages
 Enable GitHub Pages for the `main` branch and repository root.
