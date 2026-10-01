@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#ffffff">
+  <title>Get My Location</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="card">
+    <div class="pin" aria-hidden="true">📍</div>
+    <h1>Get My Location</h1>
+    <p>Tap below to copy your current GPS coordinates. You can then return to the form and paste them.</p>
+    <button id="locate">Get My Location</button>
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+    <a id="returnLink" class="return-link" hidden>Return to form</a>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
