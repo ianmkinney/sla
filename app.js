@@ -1,6 +1,5 @@
 const button=document.querySelector("#locate");
 const status=document.querySelector("#status");
-const returnLink=document.querySelector("#returnLink");
 const copyAgain=document.querySelector("#copyAgain");
 let latestCoordinates="";
 const params=new URLSearchParams(location.search);
@@ -10,7 +9,7 @@ function safeReturnUrl(value){
   try{const url=new URL(value);return url.protocol==="https:"?url.href:null;}catch{return null;}
 }
 const destination=safeReturnUrl(params.get("return"));
-if(destination){returnLink.href=destination;returnLink.hidden=false;}
+
 
 async function copyText(text){
   try{
@@ -59,13 +58,8 @@ button.addEventListener("click",async()=>{
   latestCoordinates=coordinates;
   try{
     await copyText(coordinates);
-    if(destination){
-      status.textContent="Location copied! Returning to the form…";
-      setTimeout(()=>location.href=destination,900);
-    }else{
-      status.textContent="Coordinates copied. Return to the Form tab in your browser and paste them.";
-      button.disabled=false;
-    }
+    status.textContent="Coordinates copied. Return to the Form tab in your browser and paste them.";
+    button.disabled=false;
   }catch{
     status.textContent=`Coordinates ready: ${coordinates}`;
     copyAgain.hidden=false;
